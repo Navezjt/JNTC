@@ -1,32 +1,32 @@
-Nombre: cheque
-en:
+name: check
+on:
   workflow_dispatch:
   pull_request:
-    Tipos: [abierto, sincronizar, volver a abrir, editar]
-Simultaneidad:
-  Grupo: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  Cancelación en curso: true
-Puestos de trabajo:
-  Comprobar:
-    Se ejecuta: ubuntu-latest
-    Pasos:
-      - Usos: Acciones/checkout@v3
-        con:
+    types: [opened, synchronize, reopened, edited]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
           fetch-depth: 2
-      - Usos: tj-actions/changed-files@v35
-        ID: Archivos
-        con:
-          Archivos: streams/*.m3u
-      - Usos: Actions/Setup-node@v3
-        if: ${{ !env. ACT && steps.files.outputs.any_changed == 'true' }}
-        con:
-          versión del nodo: 18
-          Caché: 'npm'
-      - Nombre: Instalar dependencias
-        if: steps.files.outputs.any_changed == 'verdadero'
-        Ejecutar: Instalación de npm
-      - Nombre: Validar
-        if: steps.files.outputs.any_changed == 'verdadero'
-        Ejecutar: |
+      - uses: tj-actions/changed-files@v35
+        id: files
+        with:
+          files: streams/*.m3u
+      - uses: actions/setup-node@v3
+        if: ${{ !env.ACT && steps.files.outputs.any_changed == 'true' }}
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: install dependencies
+        if: steps.files.outputs.any_changed == 'true'
+        run: npm install
+      - name: validate
+        if: steps.files.outputs.any_changed == 'true'
+        run: |
           npm run playlist:lint -- ${{ steps.files.outputs.all_changed_files }}
           npm run playlist:validate -- ${{ steps.files.outputs.all_changed_files }}
