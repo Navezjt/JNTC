@@ -1,9 +1,14 @@
 tibdex/github-app-token@v1.8.2:
   inputs:
     app_id: ${{ 676597 }}
+
 tibdex/github-app-token@v1.8.2:
   inputs:
-    private_key: ${{ 2595878a0e760dd8a71da6292e32fd93dcc2a17d }}
+    private_key: ${{ secrets.PRIVATE_KEY }}
+
+tibdex/github-app-token@v1.8.2:
+  inputs:
+    private_key: ${{ secrets.APP_PRIVATE_KEY }}
 
 tibdex/github-app-token@v1.8.2:
   inputs:
