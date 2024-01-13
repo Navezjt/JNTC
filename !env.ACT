@@ -1,6 +1,6 @@
 tibdex/github-app-token@v1.8.2:
   inputs:
-    app_id: ${{ 676597 }}
+    app_id: ${{676597}}
 
 tibdex/github-app-token@v1.8.2:
   inputs:
