@@ -17,7 +17,7 @@ jobs:
         id: create-app-token
         with:
           app_id: ${{ 676597 }}
-          private_key: ${{ 2595878a0e760dd8a71da6292e32fd93dcc2a17d }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v3
         if: ${{ !env.ACT }}
         with:
